@@ -1,3 +1,76 @@
-theme: jekyll-theme-minimal
+theme: 
+  sudosessions/
+  │
+  ├── _config.yml            ← Site config, SEO defaults
+  ├── _layouts/
+  │   ├── default.html       ← Base HTML shell (nav + footer)
+  │   ├── post.html          ← Article page layout
+  │   ├── category.html      ← Category listing layout
+  │   └── page.html          ← Static pages (About, Tools)
+  │
+  ├── _includes/
+  │   ├── head.html          ← <head>, meta, SEO tags
+  │   ├── nav.html           ← Navigation bar
+  │   ├── footer.html        ← Footer
+  │   ├── post-card.html     ← Reusable post card component
+  │   └── schema.html        ← JSON-LD structured data
+  │
+  ├── _posts/                ← Your blog posts (Markdown)
+  │   └── 2026-03-01-reverse-engineering-sync-protocol.md
+  │
+  ├── _data/
+  │   ├── categories.yml     ← Category definitions
+  │   └── nav.yml            ← Nav link definitions
+  │
+  ├── _sass/
+  │   ├── _variables.scss    ← CSS custom properties
+  │   ├── _base.scss         ← Reset & typography
+  │   ├── _layout.scss       ← Grid & page structure
+  │   └── _components.scss   ← Cards, nav, footer, etc.
+  │
+  ├── assets/
+  │   ├── css/main.scss      ← Imports all _sass files
+  │   └── img/               ← Post images
+  │
+  ├── sessions/
+  │   └── index.html         ← /sessions/ listing page
+  │
+  ├── about.md
+  ├── tools.md
+  ├── newsletter.md
+  ├── index.html             ← Homepage
+  ├── CNAME                  ← "sudosessions.dev" (optional)
+  └── Gemfile
+
+
 title: SudoSessions
-description: A place to crash for your sudos
+description: "Elevated access. Honest takes. Software deep dives for power users."
+url: "https://sudosessions.dev"
+baseurl: ""
+author:
+  name: Your Name
+  github: yourusername
+
+# SEO defaults
+lang: en
+timezone: Asia/Manila
+
+# Jekyll plugins (all free on GitHub Pages)
+plugins:
+  - jekyll-seo-tag        # auto meta tags, OG, Twitter cards
+  - jekyll-sitemap        # auto sitemap.xml
+  - jekyll-feed           # auto feed.xml (RSS)
+  - jekyll-paginate       # /sessions/page/2/ etc.
+
+# Pagination
+paginate: 9
+paginate_path: "/sessions/page/:num/"
+
+# Defaults — auto-apply layout to posts
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Your Name"
