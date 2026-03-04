@@ -1,1 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SudoSessions – Brand & Site Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c08;
+    --surface: #0d140d;
+    --surface2: #111a11;
+    --border: #1e2e1e;
+    --border-bright: #2d4a2d;
+    --green: #39ff6a;
+    --green-dim: #1f8c3f;
+    --green-muted: #2a4a2a;
+    --amber: #f5a623;
+    --text: #c8d8c8;
+    --text-dim: #6a886a;
+    --text-faint: #3a533a;
+    --red: #ff4444;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--mono);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 20px;
+    background: var(--green);
+    pointer-events: none;
+    z-index: 9999;
+    animation: blink 1s step-end infinite;
+    transform: translateY(-2px);
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* Navigation */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 500;
+  }
+  .topbar-logo {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .topbar-logo span { color: var(--text-dim); font-weight: 400; font-size: 13px; }
+  .tabs {
+    display: flex;
+    gap: 2px;
+  }
+  .tab {
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: none;
+    color: var(--text-dim);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active {
+    color: var(--green);
+    background: var(--green-muted);
+    border-color: var(--border-bright);
+  }
+  .topbar-status {
+    font-size: 10px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Pages */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Content wrapper */
+  .content { max-width: 1100px; margin: 0 auto; padding: 36px 32px; }
+
+  /* Section title */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-dim);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ============ PAGE 1: BRAND ============ */
+  .brand-hero {
+    text-align: center;
+    padding: 60px 0 48px;
+    position: relative;
+  }
+  .brand-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(57,255,106,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .brand-prompt {
+    font-size: 13px;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  .brand-prompt .user { color: var(--green-dim); }
+  .brand-name {
+    font-family: var(--display);
+    font-size: clamp(52px, 8vw, 88px);
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+    text-shadow: 0 0 60px rgba(57,255,106,0.2);
+  }
+  .brand-name .sudo { color: var(--text); }
+  .brand-tagline {
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    margin-bottom: 32px;
+  }
+  .brand-desc {
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  /* Brand grid */
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .brand-card {
+    background: var(--surface);
+    padding: 24px;
+  }
+  .brand-card-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+  .brand-card-value {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .brand-card-value.mono { font-family: var(--mono); color: var(--green); }
+
+  /* Color palette */
+  .palette { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+  .swatch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .swatch-dot { width: 24px; height: 24px; border-radius: 3px; }
+
+  /* Typography specimens */
+  .type-specimen {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .specimen-display { font-family: var(--display); font-size: 36px; font-weight: 800; color: var(--green); line-height: 1.1; margin-bottom: 8px; }
+  .specimen-mono { font-family: var(--mono); font-size: 13px; color: var(--text-dim); line-height: 1.8; }
+  .specimen-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+
+  /* Logo variations */
+  .logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .logo-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 20px;
+    text-align: center;
+  }
+  .logo-box.dark-bg { background: #020402; }
+  .logo-box.green-bg { background: var(--green); }
+  .logo-box-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); margin-top: 12px; }
+
+  .logo-v1 { font-family: var(--display); font-size: 20px; font-weight: 800; color: var(--green); }
+  .logo-v1 .bracket { color: var(--text-dim); }
+  .logo-v2 { font-family: var(--mono); font-size: 14px; color: var(--green); }
+  .logo-v2 .prefix { color: var(--text-dim); }
+  .logo-v3 { font-family: var(--display); font-size: 20px; font-weight: 800; color: #080c08; }
+
+  /* Voice & tone */
+  .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .voice-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .voice-title { font-size: 11px; color: var(--amber); margin-bottom: 12px; letter-spacing: 0.08em; }
+  .voice-item { font-size: 11px; color: var(--text-dim); padding: 6px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .voice-item:last-child { border-bottom: none; }
+  .voice-item .check { color: var(--green); margin-right: 8px; }
+  .voice-item .cross { color: var(--red); margin-right: 8px; }
+
+  /* ============ PAGE 2: WIREFRAME ============ */
+  .wf-label-tag {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-dim);
+    background: var(--green-muted);
+    border: 1px solid var(--border-bright);
+    padding: 2px 7px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .wf-section-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  .wf-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--surface);
+    border: 1px dashed var(--border-bright);
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .wf-nav-logo { font-family: var(--display); font-size: 15px; font-weight: 800; color: var(--green); }
+  .wf-nav-links { display: flex; gap: 20px; }
+  .wf-nav-link { font-size: 10px; color: var(--text-dim); }
+  .wf-nav-sub { font-size: 10px; color: var(--green); border: 1px dashed var(--border-bright); padding: 4px 12px; border-radius: 2px; }
+
+  .wf-hero {
+    padding: 40px 24px;
+    text-align: center;
+    border: 1px dashed var(--border-bright);
+    background: repeating-linear-gradient(135deg, var(--surface) 0px, var(--surface) 6px, var(--surface2) 6px, var(--surface2) 12px);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .wf-hero-eyebrow { font-size: 9px; color: var(--text-faint); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+  .wf-hero-h1 { font-family: var(--display); font-size: 22px; font-weight: 800; color: var(--green); margin-bottom: 8px; }
+  .wf-hero-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 16px; }
+  .wf-hero-btns { display: flex; gap: 10px; justify-content: center; }
+  .wf-btn { border: 1px dashed var(--border-bright); padding: 6px 16px; font-size: 10px; color: var(--green); border-radius: 2px; }
+  .wf-btn.sec { border-color: var(--border); color: var(--text-dim); }
+
+  .wf-box {
+    border: 1px dashed var(--border);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .wf-box:hover { border-color: var(--border-bright); }
+  .wf-box .wf-tag {
+    position: absolute;
+    top: -1px; right: 10px;
+    background: var(--green-muted);
+    border: 1px dashed var(--border-bright);
+    border-top: none;
+    font-size: 9px;
+    padding: 2px 7px;
+    color: var(--green-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .wf-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .wf-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .wf-row { display: flex; gap: 10px; }
+  .wf-col { flex: 1; }
+  .wf-col-2 { flex: 2; }
+  .wf-col-3 { flex: 3; }
+
+  .wf-card {
+    border: 1px dashed var(--border);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 14px;
+    min-height: 110px;
+  }
+  .wf-card:hover { border-color: var(--border-bright); }
+  .wf-card-cat { font-size: 9px; color: var(--green-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px; }
+  .wf-card-img { height: 36px; background: repeating-linear-gradient(90deg, var(--surface2) 0, var(--surface2) 4px, var(--surface) 4px, var(--surface) 8px); border-radius: 2px; margin-bottom: 8px; }
+  .wf-card-title { font-size: 11px; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px; }
+  .wf-card-meta { font-size: 9px; color: var(--text-faint); display: flex; gap: 10px; }
+
+  .wf-sidebar-widget {
+    border: 1px dashed var(--border);
+    background: var(--surface);
+    border-radius: 3px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .wf-widget-title { font-size: 9px; color: var(--green-dim); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .wf-widget-item { font-size: 10px; color: var(--text-faint); padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .wf-widget-item:last-child { border: none; }
+
+  .wf-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .wf-tag-pill { border: 1px dashed var(--border); font-size: 9px; padding: 3px 8px; border-radius: 99px; color: var(--text-faint); }
+
+  .wf-footer {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .wf-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 20px; margin-bottom: 14px; }
+  .wf-footer-title { font-size: 9px; color: var(--green-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .wf-footer-item { font-size: 10px; color: var(--text-faint); padding: 3px 0; }
+  .wf-footer-bottom { border-top: 1px dashed var(--border); padding-top: 12px; font-size: 9px; color: var(--text-faint); display: flex; justify-content: space-between; }
+
+  .wf-notice {
+    background: var(--green-muted);
+    border: 1px solid var(--border-bright);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 10px;
+    color: var(--green-dim);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wf-page-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+  .wf-page-tab {
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-faint);
+    cursor: none;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .wf-page-tab:hover { color: var(--text-dim); border-color: var(--border-bright); }
+  .wf-page-tab.active { color: var(--green); background: var(--green-muted); border-color: var(--border-bright); }
+  .wf-page { display: none; }
+  .wf-page.active { display: block; }
+
+  /* ============ PAGE 3: ARCHITECTURE ============ */
+  .arch-tree {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 2;
+    color: var(--text-dim);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  .arch-tree .root { color: var(--green); font-weight: 600; font-size: 14px; }
+  .arch-tree .dir { color: var(--amber); }
+  .arch-tree .file { color: var(--text-dim); }
+  .arch-tree .comment { color: var(--text-faint); font-style: italic; }
+  .arch-tree .seo { color: var(--green-dim); }
+
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .arch-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .arch-card-title {
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .arch-item {
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .arch-item:last-child { border-bottom: none; }
+  .arch-item .arch-icon { color: var(--green-dim); flex-shrink: 0; }
+  .arch-item .arch-key { color: var(--green); min-width: 100px; font-size: 10px; }
+
+  .github-box {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .github-box-title {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .step-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .step-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px;
+    text-align: center;
+  }
+  .step-num { font-family: var(--display); font-size: 28px; font-weight: 800; color: var(--green-muted); margin-bottom: 8px; }
+  .step-title { font-size: 11px; color: var(--text); margin-bottom: 6px; }
+  .step-desc { font-size: 10px; color: var(--text-faint); line-height: 1.5; }
+
+  .cmd-block {
+    background: #020402;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green-dim);
+    border-radius: 3px;
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    margin: 10px 0;
+    overflow-x: auto;
+  }
+  .cmd-block .prompt { color: var(--green-dim); }
+  .cmd-block .comment { color: var(--text-faint); }
+
+  /* ============ PAGE 4: SEO ============ */
+  .seo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .seo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .seo-card-title { font-size: 11px; color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .seo-item { font-size: 11px; color: var(--text-dim); padding: 7px 0; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 3px; }
+  .seo-item:last-child { border: none; }
+  .seo-item .seo-key { font-size: 10px; color: var(--green); }
+  .seo-item .seo-val { font-size: 10px; color: var(--text-faint); font-style: italic; }
+
+  .serp-preview {
+    background: #fff;
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+  }
+  .serp-url { font-size: 12px; color: #1a0dab; margin-bottom: 2px; }
+  .serp-title { font-size: 18px; color: #1a0dab; margin-bottom: 4px; line-height: 1.3; }
+  .serp-desc { font-size: 13px; color: #4d5156; line-height: 1.5; }
+  .serp-url-green { color: #0d652d; font-size: 12px; }
+
+  .keyword-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+  .keyword-table th {
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .keyword-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 11px;
+  }
+  .keyword-table tr:hover td { background: var(--surface2); }
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    letter-spacing: 0.05em;
+  }
+  .badge-green { background: var(--green-muted); color: var(--green); border: 1px solid var(--border-bright); }
+  .badge-amber { background: #2a1f00; color: var(--amber); border: 1px solid #4a3800; }
+  .badge-red { background: #2a0000; color: var(--red); border: 1px solid #4a0000; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    SudoSessions <span>// site plan v1.0</span>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showMain('brand')">01 Brand</div>
+    <div class="tab" onclick="showMain('wireframe')">02 Wireframe</div>
+    <div class="tab" onclick="showMain('architecture')">03 Architecture</div>
+    <div class="tab" onclick="showMain('seo')">04 SEO</div>
+  </div>
+  <div class="topbar-status">
+    <div class="status-dot"></div>
+    GitHub Pages Ready
+  </div>
+</div>
+
+<!-- ======= PAGE 1: BRAND ======= -->
+<div class="page active" id="brand">
+  <div class="content">
+
+    <div class="brand-hero">
+      <div class="brand-prompt"><span class="user">user@machine:~$</span> whois sudosessions</div>
+      <div class="brand-name"><span class="sudo">Sudo</span>Sessions</div>
+      <div class="brand-tagline">// Power-user software. No hand-holding. No fluff.</div>
+      <div class="brand-desc">
+        A blog for people who read the man page, break things on purpose,
+        and learn more from a stack trace than a tutorial.
+        Deep dives, honest reviews, and experiments from the command line up.
+      </div>
+    </div>
+
+    <div class="section-label">// Identity System</div>
+
+    <div class="brand-grid">
+      <div class="brand-card">
+        <div class="brand-card-label">Site Name</div>
+        <div class="brand-card-value mono">SudoSessions</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Tagline</div>
+        <div class="brand-card-value">"Elevated access. Honest takes."</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Domain (GitHub Pages)</div>
+        <div class="brand-card-value mono">yourusername.github.io<br>or sudosessions.dev</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Audience</div>
+        <div class="brand-card-value">Developers, sysadmins, tinkerers, power users who prefer the terminal over a GUI</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Content Pillars</div>
+        <div class="brand-card-value">Dev Tools · Linux · Automation · Security · Open Source · Deep Dives</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Publishing Cadence</div>
+        <div class="brand-card-value">1–2 posts/week · Markdown files pushed via Git</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Color Palette</div>
+    <div class="brand-grid" style="margin-bottom:24px;">
+      <div class="brand-card">
+        <div class="brand-card-label">Primary — Terminal Green</div>
+        <div style="height:32px;background:#39ff6a;border-radius:3px;margin-bottom:10px;"></div>
+        <div class="brand-card-value mono">#39FF6A</div>
+        <div style="font-size:10px;color:var(--text-faint);margin-top:4px;">Headings, links, active states, CTAs</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Background — Deep Terminal</div>
+        <div style="height:32px;background:#080c08;border:1px solid #1e2e1e;border-radius:3px;margin-bottom:10px;"></div>
+        <div class="brand-card-value mono">#080C08</div>
+        <div style="font-size:10px;color:var(--text-faint);margin-top:4px;">Page background, main canvas</div>
+      </div>
+      <div class="brand-card">
+        <div class="brand-card-label">Accent — Amber / Warning</div>
+        <div style="height:32px;background:#f5a623;border-radius:3px;margin-bottom:10px;"></div>
+        <div class="brand-card-value mono">#F5A623</div>
+        <div style="font-size:10px;color:var(--text-faint);margin-top:4px;">Category badges, highlights, callouts</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Typography</div>
+    <div class="type-specimen">
+      <div class="specimen-label">Display font — Syne (headings, logo)</div>
+      <div class="specimen-display">SudoSessions</div>
+      <div class="specimen-label" style="margin-top:16px;">Body & code font — JetBrains Mono</div>
+      <div class="specimen-mono">
+        $ cat article.md | grep "tldr"<br>
+        How I automated my entire dev setup with Ansible in one weekend.<br>
+        No GUI. No excuses. Just YAML and caffeine.
+      </div>
+    </div>
+
+    <div class="section-label">// Logo Variations</div>
+    <div class="logo-grid">
+      <div class="logo-box">
+        <div class="logo-v1">[<span class="bracket">$</span>] SudoSessions</div>
+        <div class="logo-box-label">Primary — Dark BG</div>
+      </div>
+      <div class="logo-box dark-bg">
+        <div class="logo-v2"><span class="prefix">$ </span>sudo sessions</div>
+        <div class="logo-box-label">Mono variant — All lowercase</div>
+      </div>
+      <div class="logo-box green-bg">
+        <div class="logo-v3">SudoSessions</div>
+        <div class="logo-box-label">Inverted — Light BG</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Voice & Tone</div>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="voice-title">✓ We Sound Like This</div>
+        <div class="voice-item"><span class="check">✓</span>Direct and opinionated — no hedging</div>
+        <div class="voice-item"><span class="check">✓</span>Technical but never condescending</div>
+        <div class="voice-item"><span class="check">✓</span>Dry humor, Unix culture references</div>
+        <div class="voice-item"><span class="check">✓</span>First-person: "I tested this so you don't have to"</div>
+        <div class="voice-item"><span class="check">✓</span>Show the error, explain the fix</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-title">✗ We Don't Sound Like This</div>
+        <div class="voice-item"><span class="cross">✗</span>"In today's fast-paced digital landscape..."</div>
+        <div class="voice-item"><span class="cross">✗</span>Listicles with no depth</div>
+        <div class="voice-item"><span class="cross">✗</span>Affiliate-padded "best of" roundups</div>
+        <div class="voice-item"><span class="cross">✗</span>Explaining what sudo means (they know)</div>
+        <div class="voice-item"><span class="cross">✗</span>Screenshots of GUIs when a command will do</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======= PAGE 2: WIREFRAME ======= -->
+<div class="page" id="wireframe">
+  <div class="content">
+
+    <div class="wf-notice">📐 Interactive wireframe — annotated layout for all key pages. Click tabs below to switch views.</div>
+
+    <div class="wf-page-tabs">
+      <div class="wf-page-tab active" onclick="showWf('wf-home')">Homepage</div>
+      <div class="wf-page-tab" onclick="showWf('wf-article')">Article Page</div>
+      <div class="wf-page-tab" onclick="showWf('wf-category')">Category Page</div>
+      <div class="wf-page-tab" onclick="showWf('wf-about')">About Page</div>
+    </div>
+
+    <!-- WF HOME -->
+    <div class="wf-page active" id="wf-home">
+      <div class="wf-section-label">// Header & Navigation</div>
+      <div class="wf-nav">
+        <div class="wf-nav-logo">[$ ] SudoSessions</div>
+        <div class="wf-nav-links">
+          <div class="wf-nav-link">Home</div>
+          <div class="wf-nav-link">Sessions ▾</div>
+          <div class="wf-nav-link">Tools</div>
+          <div class="wf-nav-link">About</div>
+          <div class="wf-nav-link">Search 🔍</div>
+        </div>
+        <div class="wf-nav-sub">↗ Subscribe</div>
+      </div>
+
+      <div class="wf-section-label">// Hero — Above the fold</div>
+      <div class="wf-hero">
+        <div class="wf-hero-eyebrow">// elevated access. honest takes.</div>
+        <div class="wf-hero-h1">Software Deep Dives for Power Users</div>
+        <div class="wf-hero-sub">Tools, experiments & opinions — straight from the terminal</div>
+        <div class="wf-hero-btns">
+          <div class="wf-btn">Browse Sessions →</div>
+          <div class="wf-btn sec">Get the Newsletter</div>
+        </div>
+      </div>
+
+      <div class="wf-section-label">// Topic Nav Pills</div>
+      <div class="wf-box">
+        <div class="wf-tag">topic-nav</div>
+        <div class="wf-tags">
+          <div class="wf-tag-pill">⚡ All Posts</div>
+          <div class="wf-tag-pill">🔧 Dev Tools</div>
+          <div class="wf-tag-pill">🐧 Linux</div>
+          <div class="wf-tag-pill">⚙️ Automation</div>
+          <div class="wf-tag-pill">🛡 Security</div>
+          <div class="wf-tag-pill">📦 Open Source</div>
+          <div class="wf-tag-pill">🔍 Deep Dives</div>
+          <div class="wf-tag-pill">🧪 Experiments</div>
+        </div>
+      </div>
+
+      <div class="wf-section-label">// Featured Session + Secondary Cards</div>
+      <div class="wf-row" style="margin-bottom:10px;">
+        <div class="wf-col-2 wf-card" style="min-height:150px;">
+          <div style="position:absolute;top:10px;right:10px;font-size:9px;padding:3px 8px;border:1px solid var(--border-bright);color:var(--green-dim);border-radius:2px;">FEATURED</div>
+          <div class="wf-card-cat">🔍 Deep Dive</div>
+          <div class="wf-card-img" style="height:64px;"></div>
+          <div class="wf-card-title" style="font-size:13px;color:var(--text);">Reverse-Engineering a Proprietary Sync Protocol Over a Weekend</div>
+          <div class="wf-card-meta"><span>📅 Mar 1</span><span>🕐 12 min</span><span>💬 24</span></div>
+        </div>
+        <div class="wf-col" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="wf-card" style="flex:1;min-height:0;">
+            <div class="wf-card-cat">⚙️ Automation</div>
+            <div class="wf-card-title">Ansible for the Impatient: Full Dev Setup in 20 Min</div>
+            <div class="wf-card-meta"><span>7 min</span><span>Feb 28</span></div>
+          </div>
+          <div class="wf-card" style="flex:1;min-height:0;">
+            <div class="wf-card-cat">🔧 Dev Tools</div>
+            <div class="wf-card-title">Neovim vs Helix: An Honest 90-Day Switch Report</div>
+            <div class="wf-card-meta"><span>9 min</span><span>Feb 25</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-section-label">// Latest Sessions Grid + Sidebar</div>
+      <div class="wf-row">
+        <div class="wf-col-3">
+          <div class="wf-grid-3">
+            <div class="wf-card"><div class="wf-card-cat">🐧 Linux</div><div class="wf-card-img"></div><div class="wf-card-title">systemd Timers vs Cron: Let's End This</div><div class="wf-card-meta"><span>8 min</span><span>Feb 22</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">🛡 Security</div><div class="wf-card-img"></div><div class="wf-card-title">Auditing SSH Keys With a Weekend Script</div><div class="wf-card-meta"><span>5 min</span><span>Feb 20</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">📦 Open Source</div><div class="wf-card-img"></div><div class="wf-card-title">Self-Hosting Plausible Analytics: 30-Day Report</div><div class="wf-card-meta"><span>11 min</span><span>Feb 18</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">🧪 Experiment</div><div class="wf-card-img"></div><div class="wf-card-title">Running LLMs Locally: A Real Benchmarking Story</div><div class="wf-card-meta"><span>14 min</span><span>Feb 15</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">⚙️ Automation</div><div class="wf-card-img"></div><div class="wf-card-title">Dotfiles With Nix Flakes: A Painful Journey</div><div class="wf-card-meta"><span>10 min</span><span>Feb 10</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">🌐 Networking</div><div class="wf-card-img"></div><div class="wf-card-title">Debugging a Flaky VPN with Wireshark</div><div class="wf-card-meta"><span>6 min</span><span>Feb 7</span></div></div>
+          </div>
+          <div style="text-align:center;margin-top:14px;">
+            <div class="wf-btn" style="display:inline-block;">Load More Sessions ↓</div>
+          </div>
+        </div>
+        <div style="min-width:175px;max-width:185px;">
+          <div class="wf-sidebar-widget">
+            <div class="wf-widget-title">📬 Newsletter</div>
+            <div style="font-size:10px;color:var(--text-faint);margin-bottom:8px;">Weekly. No spam. Just posts.</div>
+            <div style="border:1px dashed var(--border);padding:5px;font-size:10px;color:var(--text-faint);margin-bottom:5px;">[email input]</div>
+            <div style="border:1px dashed var(--border-bright);padding:5px;font-size:10px;color:var(--green);text-align:center;">Subscribe →</div>
+          </div>
+          <div class="wf-sidebar-widget">
+            <div class="wf-widget-title">🔥 Popular</div>
+            <div class="wf-widget-item">Reverse Engineering a Sync Protocol</div>
+            <div class="wf-widget-item">systemd Timers vs Cron</div>
+            <div class="wf-widget-item">Running LLMs Locally</div>
+            <div class="wf-widget-item">Neovim vs Helix</div>
+          </div>
+          <div class="wf-sidebar-widget">
+            <div class="wf-widget-title">🏷 Tags</div>
+            <div class="wf-tags">
+              <div class="wf-tag-pill">bash</div><div class="wf-tag-pill">nix</div><div class="wf-tag-pill">docker</div><div class="wf-tag-pill">ssh</div><div class="wf-tag-pill">git</div><div class="wf-tag-pill">bpf</div><div class="wf-tag-pill">ansible</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-footer">
+        <div class="wf-footer-grid">
+          <div>
+            <div class="wf-footer-title">[$ ] SudoSessions</div>
+            <div style="font-size:10px;color:var(--text-faint);line-height:1.6;">Elevated access. Honest takes. Software deep dives for power users.</div>
+          </div>
+          <div>
+            <div class="wf-footer-title">Sessions</div>
+            <div class="wf-footer-item">Dev Tools</div><div class="wf-footer-item">Linux</div><div class="wf-footer-item">Automation</div><div class="wf-footer-item">Security</div>
+          </div>
+          <div>
+            <div class="wf-footer-title">Site</div>
+            <div class="wf-footer-item">About</div><div class="wf-footer-item">Newsletter</div><div class="wf-footer-item">RSS Feed</div><div class="wf-footer-item">Sitemap</div>
+          </div>
+          <div>
+            <div class="wf-footer-title">Find Me</div>
+            <div class="wf-footer-item">GitHub</div><div class="wf-footer-item">Mastodon</div><div class="wf-footer-item">RSS</div>
+          </div>
+        </div>
+        <div class="wf-footer-bottom"><span>© 2026 SudoSessions</span><span>Privacy · Terms · Colophon</span></div>
+      </div>
+    </div>
+
+    <!-- WF ARTICLE -->
+    <div class="wf-page" id="wf-article">
+      <div class="wf-nav" style="margin-bottom:10px;">
+        <div class="wf-nav-logo">[$ ] SudoSessions</div>
+        <div class="wf-nav-links"><div class="wf-nav-link">Home</div><div class="wf-nav-link">Sessions ▾</div><div class="wf-nav-link">Tools</div></div>
+        <div class="wf-nav-sub">↗ Subscribe</div>
+      </div>
+      <div class="wf-box" style="margin-bottom:10px;"><div style="font-size:10px;color:var(--text-faint);">Home › Deep Dives › Reverse Engineering a Sync Protocol</div></div>
+      <div class="wf-row">
+        <div class="wf-col-3">
+          <div class="wf-box" style="margin-bottom:16px;">
+            <div class="wf-tag">article-header</div>
+            <div style="font-size:10px;color:var(--green-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">🔍 Deep Dive · Networking</div>
+            <div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3;">Reverse-Engineering a Proprietary Sync Protocol Over a Weekend</div>
+            <div style="font-size:10px;color:var(--text-faint);display:flex;gap:16px;margin-bottom:10px;"><span>📅 Mar 1, 2026</span><span>👤 Author</span><span>🕐 12 min</span><span>💬 24</span></div>
+            <div class="wf-tags" style="margin-bottom:12px;"><div class="wf-tag-pill">wireshark</div><div class="wf-tag-pill">networking</div><div class="wf-tag-pill">reverse-engineering</div></div>
+            <div class="wf-card-img" style="height:100px;"></div>
+          </div>
+          <div class="wf-box" style="margin-bottom:12px;">
+            <div class="wf-tag">toc</div>
+            <div class="wf-widget-title">Table of Contents</div>
+            <div style="font-size:10px;color:var(--text-faint);line-height:2.2;">› The Problem · › Tools Used · › Capturing Traffic · › Pattern Recognition · › Writing the Client · › Learnings</div>
+          </div>
+          <div class="wf-box" style="min-height:200px;">
+            <div class="wf-tag">article-body</div>
+            <div style="font-size:10px;color:var(--text-faint);line-height:1.9;">
+              [Intro — hook and problem statement]<br><br>
+              <div style="background:var(--surface2);border-left:2px solid var(--green-dim);padding:8px 12px;margin:8px 0;font-size:10px;color:var(--green);">$ wireshark -i eth0 -f "tcp port 443"   ← code block</div>
+              [Body paragraphs with screenshots, code, and analysis]<br><br>
+              <div style="background:var(--green-muted);border:1px dashed var(--border-bright);padding:8px 12px;margin:8px 0;font-size:10px;color:var(--green-dim);">💡 Tip / callout box</div>
+              [Conclusion and learnings]
+            </div>
+          </div>
+          <div class="wf-box" style="margin-top:10px;"><div class="wf-tag">share</div><div style="font-size:10px;color:var(--text-faint);margin-bottom:8px;">Share this session:</div><div class="wf-tags"><div class="wf-tag-pill">HackerNews</div><div class="wf-tag-pill">Mastodon</div><div class="wf-tag-pill">Copy Link</div></div></div>
+          <div class="wf-box" style="margin-top:10px;"><div class="wf-tag">related</div><div class="wf-widget-title">Related Sessions</div><div class="wf-grid-2"><div class="wf-card"><div class="wf-card-cat">🌐 Networking</div><div class="wf-card-title">Debugging VPNs with Wireshark</div></div><div class="wf-card"><div class="wf-card-cat">🛡 Security</div><div class="wf-card-title">Auditing SSH Keys Automatically</div></div></div></div>
+          <div class="wf-box" style="margin-top:10px;"><div class="wf-tag">comments</div><div class="wf-widget-title">Comments (24) — via Giscus (GitHub Discussions)</div><div style="height:60px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-faint);">[Giscus comment widget]</div></div>
+        </div>
+        <div style="min-width:175px;max-width:185px;">
+          <div class="wf-sidebar-widget" style="position:sticky;top:60px;">
+            <div class="wf-widget-title">On This Page</div>
+            <div class="wf-widget-item" style="font-size:9px;">The Problem</div>
+            <div class="wf-widget-item" style="font-size:9px;">Tools Used</div>
+            <div class="wf-widget-item" style="font-size:9px;">Capturing Traffic</div>
+            <div class="wf-widget-item" style="font-size:9px;">Pattern Recognition</div>
+            <div class="wf-widget-item" style="font-size:9px;">Writing the Client</div>
+            <div class="wf-widget-item" style="font-size:9px;">Learnings</div>
+          </div>
+          <div class="wf-sidebar-widget" style="margin-top:10px;">
+            <div class="wf-widget-title">📬 Newsletter</div>
+            <div style="font-size:10px;color:var(--text-faint);margin-bottom:6px;">Get posts weekly</div>
+            <div style="border:1px dashed var(--border);padding:5px;font-size:10px;color:var(--text-faint);margin-bottom:5px;">[email]</div>
+            <div style="border:1px dashed var(--border-bright);padding:4px;font-size:10px;color:var(--green);text-align:center;">Subscribe →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WF CATEGORY -->
+    <div class="wf-page" id="wf-category">
+      <div class="wf-nav" style="margin-bottom:10px;"><div class="wf-nav-logo">[$ ] SudoSessions</div><div class="wf-nav-links"><div class="wf-nav-link">Home</div><div class="wf-nav-link" style="color:var(--green);">Sessions ▾</div><div class="wf-nav-link">Tools</div></div><div class="wf-nav-sub">↗ Subscribe</div></div>
+      <div class="wf-box" style="margin-bottom:10px;"><div style="font-size:10px;color:var(--text-faint);">Home › Sessions › Linux</div></div>
+      <div class="wf-box" style="margin-bottom:10px;">
+        <div class="wf-tag">category-header</div>
+        <div style="font-family:var(--display);font-size:20px;font-weight:700;color:var(--green);margin-bottom:4px;">🐧 Linux</div>
+        <div style="font-size:11px;color:var(--text-faint);margin-bottom:12px;">Internals, tools, and workflows for people who read the man page.</div>
+        <div class="wf-tags"><div class="wf-tag-pill" style="border-color:var(--border-bright);color:var(--green);">All (18)</div><div class="wf-tag-pill">Tutorials (7)</div><div class="wf-tag-pill">Reviews (4)</div><div class="wf-tag-pill">Experiments (7)</div></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-col-3">
+          <div style="font-size:9px;color:var(--text-faint);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.1em;">18 sessions · Newest first ▾</div>
+          <div class="wf-grid-3">
+            <div class="wf-card"><div class="wf-card-cat">🐧 Tutorial</div><div class="wf-card-img"></div><div class="wf-card-title">systemd Timers vs Cron: Let's End This</div><div class="wf-card-meta"><span>8 min</span><span>Feb 22</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">🐧 Experiment</div><div class="wf-card-img"></div><div class="wf-card-title">Nix Flakes for Dotfiles: A Painful Journey</div><div class="wf-card-meta"><span>10 min</span><span>Feb 10</span></div></div>
+            <div class="wf-card"><div class="wf-card-cat">🐧 Review</div><div class="wf-card-img"></div><div class="wf-card-title">Helix Editor: My Honest 6-Month Review</div><div class="wf-card-meta"><span>9 min</span><span>Jan 30</span></div></div>
+          </div>
+          <div style="display:flex;justify-content:center;gap:5px;margin-top:14px;"><div class="wf-tag-pill" style="border-color:var(--border-bright);color:var(--green);">1</div><div class="wf-tag-pill">2</div><div class="wf-tag-pill">3</div><div class="wf-tag-pill">→</div></div>
+        </div>
+        <div style="min-width:175px;max-width:185px;">
+          <div class="wf-sidebar-widget"><div class="wf-widget-title">Other Topics</div><div class="wf-widget-item">🔧 Dev Tools (22)</div><div class="wf-widget-item">🧪 Experiments (15)</div><div class="wf-widget-item">⚙️ Automation (11)</div><div class="wf-widget-item">🛡 Security (9)</div><div class="wf-widget-item">📦 Open Source (14)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WF ABOUT -->
+    <div class="wf-page" id="wf-about">
+      <div class="wf-nav" style="margin-bottom:10px;"><div class="wf-nav-logo">[$ ] SudoSessions</div><div class="wf-nav-links"><div class="wf-nav-link">Home</div><div class="wf-nav-link">Sessions</div><div class="wf-nav-link" style="color:var(--green);">About</div></div><div class="wf-nav-sub">↗ Subscribe</div></div>
+      <div class="wf-row">
+        <div class="wf-col-3">
+          <div class="wf-box"><div class="wf-tag">author-hero</div><div class="wf-row" style="align-items:center;gap:20px;padding:8px 0;"><div style="width:72px;height:72px;border-radius:50%;border:1px dashed var(--border-bright);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">👤</div><div><div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;">[Your Name]</div><div style="font-size:11px;color:var(--text-faint);margin-bottom:8px;">Software tinkerer · Open source contributor · Chronic debugger</div><div class="wf-tags"><div class="wf-tag-pill">GitHub</div><div class="wf-tag-pill">Mastodon</div><div class="wf-tag-pill">RSS</div></div></div></div></div>
+          <div class="wf-box" style="margin-top:10px;"><div class="wf-tag">mission</div><div class="wf-widget-title">What is SudoSessions?</div><div style="font-size:11px;color:var(--text-faint);line-height:1.8;">[Mission — why this blog exists, what you'll find here, who it's for]<br><br>[How I write — hands-on testing, honest opinions, real commands and real errors]</div></div>
+          <div class="wf-box" style="margin-top:10px;text-align:center;padding:24px;"><div class="wf-tag">newsletter-cta</div><div style="font-family:var(--display);font-size:16px;font-weight:700;color:var(--green);margin-bottom:6px;">Get Sessions in Your Inbox</div><div style="font-size:10px;color:var(--text-faint);margin-bottom:14px;">No spam. Just new posts when they ship.</div><div style="display:flex;gap:8px;max-width:320px;margin:0 auto;"><div style="flex:1;border:1px dashed var(--border);padding:7px;font-size:10px;color:var(--text-faint);">[email]</div><div style="border:1px dashed var(--border-bright);padding:7px 14px;font-size:10px;color:var(--green);">Subscribe →</div></div></div>
+        </div>
+        <div style="min-width:175px;max-width:185px;">
+          <div class="wf-sidebar-widget"><div class="wf-widget-title">By the Numbers</div><div class="wf-widget-item">📝 72 Sessions Published</div><div class="wf-widget-item">📅 Writing since 2023</div><div class="wf-widget-item">📬 1,400+ Subscribers</div><div class="wf-widget-item">⭐ 8 Topics Covered</div></div>
+          <div class="wf-sidebar-widget" style="margin-top:10px;"><div class="wf-widget-title">My Stack</div><div class="wf-widget-item">OS: Arch Linux</div><div class="wf-widget-item">Editor: Helix</div><div class="wf-widget-item">Shell: Fish + Starship</div><div class="wf-widget-item">Blog: GitHub Pages + Jekyll</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======= PAGE 3: ARCHITECTURE ======= -->
+<div class="page" id="architecture">
+  <div class="content">
+
+    <div class="github-box">
+      <div class="github-box-title">⚙️ GitHub Pages Deployment — How It Works</div>
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-title">Create Repo</div>
+          <div class="step-desc">Name it <code>username.github.io</code> or any repo with Pages enabled</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-title">Choose Generator</div>
+          <div class="step-desc">Jekyll (native support) or any SSG that outputs to <code>/docs</code> or <code>gh-pages</code> branch</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-title">Write Posts</div>
+          <div class="step-desc">Markdown files in <code>/_posts/</code> — push to main to auto-publish</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-title">Custom Domain</div>
+          <div class="step-desc">Add CNAME file + DNS record to point <code>sudosessions.dev</code> → GitHub Pages</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">// Recommended Stack</div>
+    <div class="arch-grid" style="margin-bottom:20px;">
+      <div class="arch-card">
+        <div class="arch-card-title">🛠 Technology Choices</div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Generator</div>Jekyll (native GitHub Pages) or Hugo (faster builds)</div></div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Theme</div>Custom — built around SudoSessions brand</div></div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Comments</div>Giscus (GitHub Discussions — free, no account needed)</div></div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Newsletter</div>Buttondown or Listmonk (self-hosted)</div></div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Analytics</div>Plausible (self-hosted, privacy-friendly)</div></div>
+        <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Search</div>Pagefind (static site search, zero server needed)</div></div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-title">📁 Jekyll Repo Structure</div>
+        <div class="arch-item"><div class="arch-key">/_posts/</div>All blog posts as .md files</div>
+        <div class="arch-item"><div class="arch-key">/_layouts/</div>default.html, post.html, category.html</div>
+        <div class="arch-item"><div class="arch-key">/_includes/</div>nav.html, footer.html, seo.html</div>
+        <div class="arch-item"><div class="arch-key">/_data/</div>categories.yml, nav.yml</div>
+        <div class="arch-item"><div class="arch-key">/assets/</div>CSS, JS, images</div>
+        <div class="arch-item"><div class="arch-key">_config.yml</div>Site config, SEO defaults, plugins</div>
+      </div>
+    </div>
+
+    <div class="section-label">// Site URL Architecture</div>
+    <div class="arch-tree">
+<span class="root">sudosessions.dev/</span>
+│
+├── <span class="dir">/ </span>                              <span class="comment">← Homepage</span>
+│   ├── Hero + category pills
+│   ├── Featured post + recent grid
+│   └── Sidebar (newsletter, popular, tags)
+│
+├── <span class="dir">/sessions/ </span>                     <span class="comment">← All posts index (paginated)</span>
+│   ├── /sessions/page/2/
+│   └── /sessions/page/3/
+│
+├── <span class="dir">/sessions/[topic]/ </span>             <span class="comment">← Category hub pages</span>
+│   ├── /sessions/dev-tools/         <span class="seo">← h1: "Dev Tools – SudoSessions"</span>
+│   ├── /sessions/linux/             <span class="seo">← h1: "Linux Deep Dives"</span>
+│   ├── /sessions/automation/
+│   ├── /sessions/security/
+│   ├── /sessions/open-source/
+│   ├── /sessions/deep-dives/
+│   └── /sessions/experiments/
+│
+├── <span class="dir">/sessions/[slug]/ </span>              <span class="comment">← Individual posts</span>
+│   ├── Breadcrumbs (Home › Topic › Title)
+│   ├── Article schema (JSON-LD)
+│   ├── h1 → h2 → h3 hierarchy
+│   ├── Table of Contents (auto-generated)
+│   ├── Internal links to related posts
+│   └── Canonical URL
+│
+├── <span class="dir">/tools/ </span>                        <span class="comment">← Curated software list (high SEO value)</span>
+├── <span class="dir">/about/ </span>                        <span class="comment">← E-E-A-T signals, author credibility</span>
+├── <span class="dir">/newsletter/ </span>                   <span class="comment">← Conversion landing page</span>
+│
+├── <span class="file">/sitemap.xml </span>                   <span class="seo">← Submit to Google Search Console</span>
+├── <span class="file">/feed.xml </span>                      <span class="seo">← RSS (readers + crawlers)</span>
+├── <span class="file">/robots.txt </span>                    <span class="seo">← Allow all, point to sitemap</span>
+└── <span class="file">CNAME </span>                          <span class="comment">← "sudosessions.dev" for custom domain</span>
+    </div>
+
+    <div class="section-label">// Setup Commands</div>
+    <div class="cmd-block">
+<span class="comment"># 1. Install Jekyll</span>
+<span class="prompt">$</span> gem install jekyll bundler
+
+<span class="comment"># 2. Create site</span>
+<span class="prompt">$</span> jekyll new sudosessions
+<span class="prompt">$</span> cd sudosessions
+
+<span class="comment"># 3. Init git and push to GitHub</span>
+<span class="prompt">$</span> git init && git remote add origin git@github.com:username/sudosessions.git
+<span class="prompt">$</span> git add . && git commit -m "feat: initial sudosessions setup"
+<span class="prompt">$</span> git push -u origin main
+
+<span class="comment"># 4. Add custom domain (optional)</span>
+<span class="prompt">$</span> echo "sudosessions.dev" > CNAME
+<span class="prompt">$</span> git add CNAME && git commit -m "feat: add custom domain" && git push
+    </div>
+
+  </div>
+</div>
+
+<!-- ======= PAGE 4: SEO ======= -->
+<div class="page" id="seo">
+  <div class="content">
+
+    <div class="section-label">// SERP Preview — What Google Will Show</div>
+    <div class="serp-preview">
+      <div class="serp-url-green">sudosessions.dev › sessions › dev-tools</div>
+      <div class="serp-title">Neovim vs Helix: A 90-Day Power User Switch Report | SudoSessions</div>
+      <div class="serp-desc">After 90 days daily-driving Helix as a long-time Neovim user, here's what actually changed. Keybindings, plugin gaps, speed, and whether I switched back.</div>
+    </div>
+    <div class="serp-preview">
+      <div class="serp-url-green">sudosessions.dev › sessions › linux</div>
+      <div class="serp-title">systemd Timers vs Cron: Which Should You Actually Use? | SudoSessions</div>
+      <div class="serp-desc">Not a tutorial. A real comparison from someone who's used both in production. When systemd timers win, when cron is still the right call, and how to migrate.</div>
+    </div>
+
+    <div class="section-label">// On-Page SEO Checklist Per Post</div>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <div class="seo-card-title">📄 HTML Structure</div>
+        <div class="seo-item"><div class="seo-key">&lt;title&gt;</div><div class="seo-val">[Post Title] | SudoSessions — under 60 chars</div></div>
+        <div class="seo-item"><div class="seo-key">&lt;meta description&gt;</div><div class="seo-val">120–155 chars, first-person, action-oriented</div></div>
+        <div class="seo-item"><div class="seo-key">&lt;h1&gt;</div><div class="seo-val">One per page, contains primary keyword</div></div>
+        <div class="seo-item"><div class="seo-key">&lt;h2&gt;/&lt;h3&gt;</div><div class="seo-val">Support keyword variations, generate TOC</div></div>
+        <div class="seo-item"><div class="seo-key">Breadcrumbs</div><div class="seo-val">Structured data — helps Google show site depth</div></div>
+        <div class="seo-item"><div class="seo-key">Canonical URL</div><div class="seo-val">Prevent duplicate content across tag/category pages</div></div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-title">🔗 Linking Strategy</div>
+        <div class="seo-item"><div class="seo-key">Topic Clusters</div><div class="seo-val">Each category page links to all posts in topic; posts link back</div></div>
+        <div class="seo-item"><div class="seo-key">Related Posts</div><div class="seo-val">3 manually-curated links at end of every article</div></div>
+        <div class="seo-item"><div class="seo-key">Anchor Text</div><div class="seo-val">Descriptive, keyword-rich — never "click here"</div></div>
+        <div class="seo-item"><div class="seo-key">External Links</div><div class="seo-val">Link to docs/sources; adds credibility</div></div>
+        <div class="seo-item"><div class="seo-key">Sitemap</div><div class="seo-val">Auto-generated, submitted to GSC on first publish</div></div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-title">🧠 Schema Markup (JSON-LD)</div>
+        <div class="seo-item"><div class="seo-key">Article</div><div class="seo-val">headline, datePublished, dateModified, author, image</div></div>
+        <div class="seo-item"><div class="seo-key">BreadcrumbList</div><div class="seo-val">Home › Category › Post — improves SERP display</div></div>
+        <div class="seo-item"><div class="seo-key">Person (About page)</div><div class="seo-val">name, url, sameAs (GitHub, Mastodon) — E-E-A-T</div></div>
+        <div class="seo-item"><div class="seo-key">WebSite</div><div class="seo-val">name, url, potentialAction (sitelinks search)</div></div>
+      </div>
+      <div class="seo-card">
+        <div class="seo-card-title">⚡ Technical SEO</div>
+        <div class="seo-item"><div class="seo-key">Core Web Vitals</div><div class="seo-val">Static HTML = fast LCP, low CLS — GitHub Pages CDN helps</div></div>
+        <div class="seo-item"><div class="seo-key">Images</div><div class="seo-val">WebP format, descriptive alt text, lazy loading</div></div>
+        <div class="seo-item"><div class="seo-key">Mobile</div><div class="seo-val">Responsive design required — Google mobile-first indexing</div></div>
+        <div class="seo-item"><div class="seo-key">HTTPS</div><div class="seo-val">Free via GitHub Pages — required for ranking</div></div>
+        <div class="seo-item"><div class="seo-key">Open Graph</div><div class="seo-val">og:title, og:image, og:description for social sharing</div></div>
+      </div>
+    </div>
+
+    <div class="section-label">// Target Keyword Strategy</div>
+    <table class="keyword-table">
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th>Type</th>
+          <th>Target Page</th>
+          <th>Difficulty</th>
+          <th>Intent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>neovim vs helix</td><td>Comparison</td><td>/sessions/dev-tools/neovim-vs-helix</td><td><span class="badge badge-green">Low</span></td><td>Informational</td></tr>
+        <tr><td>systemd timer vs cron</td><td>Comparison</td><td>/sessions/linux/systemd-timer-vs-cron</td><td><span class="badge badge-green">Low</span></td><td>Informational</td></tr>
+        <tr><td>self host plausible analytics</td><td>Tutorial</td><td>/sessions/open-source/self-host-plausible</td><td><span class="badge badge-amber">Medium</span></td><td>How-to</td></tr>
+        <tr><td>run llm locally linux</td><td>Tutorial</td><td>/sessions/experiments/run-llm-locally</td><td><span class="badge badge-amber">Medium</span></td><td>How-to</td></tr>
+        <tr><td>nix flakes dotfiles setup</td><td>Tutorial</td><td>/sessions/linux/nix-flakes-dotfiles</td><td><span class="badge badge-green">Low</span></td><td>How-to</td></tr>
+        <tr><td>ansible dev environment setup</td><td>Tutorial</td><td>/sessions/automation/ansible-dev-setup</td><td><span class="badge badge-amber">Medium</span></td><td>How-to</td></tr>
+        <tr><td>debug vpn wireshark</td><td>How-to</td><td>/sessions/networking/debug-vpn-wireshark</td><td><span class="badge badge-green">Low</span></td><td>Navigational</td></tr>
+        <tr><td>best linux terminal tools 2026</td><td>Roundup</td><td>/tools/</td><td><span class="badge badge-red">High</span></td><td>Commercial</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">// E-E-A-T Signals to Build</div>
+    <div class="arch-card" style="margin-bottom:0;">
+      <div class="arch-card-title">Experience · Expertise · Authoritativeness · Trustworthiness</div>
+      <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Experience</div>Show real terminal output, actual errors encountered, real-world usage — not sanitized tutorials</div></div>
+      <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Expertise</div>Author bio on About page + byline on every post with credentials (GitHub profile, projects)</div></div>
+      <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Authority</div>Link to GitHub repo for each post if applicable. Get mentioned on HackerNews, Lobsters, or similar</div></div>
+      <div class="arch-item"><div class="arch-icon">◆</div><div><div class="arch-key">Trust</div>HTTPS ✓ · Privacy policy ✓ · No affiliate padding ✓ · Date of last update shown on posts ✓</div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  function showMain(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showWf(id) {
+    document.querySelectorAll('.wf-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.wf-page-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
