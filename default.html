@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+  {% seo %}  ← jekyll-seo-tag handles all meta automatically
+</head>
+<body>
+  {% include nav.html %}
+  <main>{{ content }}</main>
+  {% include footer.html %}
+</body>
+</html>
