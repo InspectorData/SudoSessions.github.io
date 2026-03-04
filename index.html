@@ -1178,7 +1178,16 @@
     document.querySelectorAll('.wf-page-tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.target.classList.add('active');
+  ---
+layout: default
+---
+{% for post in paginator.posts %}
+  {% include post-card.html post=post %}
+{% endfor %}
+  
   }
+
+  
 </script>
 </body>
 </html>
